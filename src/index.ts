@@ -76,9 +76,9 @@ app.get('/produtos', async (req, res) => {
             database: process.env.DBDATABASE,
             port: Number(process.env.DBPORT)
         })
-        res.send("Conectado ao banco!")
         const [rows] = await db.query("SELECT id, nome, preco, urlfoto, descricao FROM produtos");
         res.json(rows);
+
     } catch (err) {
         console.error("Erro ao buscar produtos:", err);
         res.status(500).json({ error: "Erro interno ao buscar produtos" });
@@ -87,6 +87,7 @@ app.get('/produtos', async (req, res) => {
             return
         }
         const error = err as Error
+        console.log(err)
         res.status(500).send("Erro ao conectar ao banco de dados: " + err.message)
     }
 });
