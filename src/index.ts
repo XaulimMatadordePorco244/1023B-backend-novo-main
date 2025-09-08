@@ -96,3 +96,5 @@ app.get('/produtos', async (req, res) => {
 app.listen(8000, () => {
     console.log('Server is running on port 8000')
 })
+
+//termminei
