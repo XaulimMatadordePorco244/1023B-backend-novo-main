@@ -1,8 +1,8 @@
 import {Router} from 'express'
 
-import carrinhoController from './carrinho/carrinho.controller.js'
-import produtosController from './produtos/produtos.controller.js'
-import usuariosController from './usuarios/usuariosController.js'
+import carrinhoController from '../carrinho/carrinho.controller.js'
+import produtosController from '../produtos/produtos.controller.js'
+import usuariosController from '../usuarios/usuariosController.js'
 
 const rotas = Router()
 
