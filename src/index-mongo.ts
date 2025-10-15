@@ -3,7 +3,8 @@ import 'dotenv/config'
 import { MongoClient } from 'mongodb'
 import rotasAutenticadas from './rotas/rotas-autenticadas.js'
 import rotasNaoAutenticadas from './rotas/rotas-nao-autenticadas.js'
-import { auth } from './middleware/auth.js'
+import  auth  from './middleware/auth.js'
+import cors from 'cors'
 
 
 const client = new MongoClient(process.env.MONGO_URI!)
@@ -11,8 +12,9 @@ await client.connect()
 
 export const db = client.db(process.env.MONGO_DB!)
 
-const app = express()
 
+const app = express()
+app.use(cors())
 
 
 app.use(express.json())
