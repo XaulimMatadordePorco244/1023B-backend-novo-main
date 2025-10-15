@@ -3,7 +3,7 @@ import 'dotenv/config'
 import { MongoClient } from 'mongodb'
 import rotasAutenticadas from './rotas/rotas-autenticadas.js'
 import rotasNaoAutenticadas from './rotas/rotas-nao-autenticadas.js'
-import  auth  from './middleware/auth.js'
+import  Auth  from './middleware/auth.js'
 import cors from 'cors'
 
 
@@ -19,8 +19,11 @@ app.use(cors())
 
 app.use(express.json())
 
-app.use(auth, rotasAutenticadas)
+
 app.use(rotasNaoAutenticadas)
+app.use(Auth,rotasAutenticadas)
+
+
 
 
 app.listen(8000, () => {

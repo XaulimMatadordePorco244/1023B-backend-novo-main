@@ -14,7 +14,7 @@ rotas.delete('/carrinho/item',carrinhoController.removerItem)
 rotas.get('/carrinho',carrinhoController.listar)
 
 
-// Rotas dos produtos
+
 
 rotas.post('/produtos',produtosController.adicionar)
 

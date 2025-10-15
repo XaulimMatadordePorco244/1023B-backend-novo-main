@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
+
 interface AutenticacaoRequest extends Request {
     usuarioId?: string
 }
 
-function auth(req: AutenticacaoRequest, res: Response, next: NextFunction){
-    console.log('Cheguei no middleware e fui bloqueado')
+function Auth(req: AutenticacaoRequest, res: Response, next: NextFunction){
+    console.log('Cheguei no middleware de autenticação')
     const authHeader = req.headers.authorization
     console.log(authHeader)
     if(!authHeader) return res.status(401).json({mensagem:'Você não passou o token'})
@@ -28,4 +29,4 @@ function auth(req: AutenticacaoRequest, res: Response, next: NextFunction){
 
 
 
-export default auth
+export default Auth
