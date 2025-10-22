@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { db } from '../database/banco-mongo.js';
-import { ObjectId } from 'mongodb';   // ✅ importa o ObjectId
+import { ObjectId } from 'mongodb';   
 
 interface ItemCarrinho {
     produtoId: string;
@@ -16,11 +16,16 @@ interface Carrinho {
     total: number;
 }
 
+interface AutenticacaoRequest extends Request {
+    usuarioId?: string
+}
+
 class CarrinhoController {
 
-    async adicionarItem(req: Request, res: Response) {
+    async adicionarItem(req: AutenticacaoRequest, res: Response) {
         try {
-            const { usuarioId, produtoId, quantidade } = req.body;
+            const { produtoId, quantidade } = req.body;
+            const usuarioId = req.usuarioId; 
             if (!usuarioId || !produtoId || !quantidade) {
                 return res.status(400).json({ error: "usuarioId, produtoId e quantidade são obrigatórios" });
             }
@@ -103,16 +108,17 @@ class CarrinhoController {
                 { usuarioId },
                 { $set: { itens: itensAtualizados, total, dataAtualizacao: new Date() } }
             );
-            return res.status(200).json({ message: "Item removido do carrinho" });
+            return res.status(200).json({ mensagem: "Item removido do carrinho" });
         } catch (error) {
             return res.status(500).json({ error: "Erro ao remover item", details: error });
         }
     }
 
     // Atualiza a quantidade de um item
-    async atualizarQuantidade(req: Request, res: Response) {
+    async atualizarQuantidade(req: AutenticacaoRequest, res: Response) {
         try {
-            const { usuarioId, produtoId, quantidade } = req.body;
+            const { produtoId, quantidade } = req.body;
+            const usuarioId = req.usuarioId;
             if (!usuarioId || !produtoId || typeof quantidade !== 'number') {
                 return res.status(400).json({ error: "usuarioId, produtoId e quantidade são obrigatórios" });
             }
@@ -131,7 +137,7 @@ class CarrinhoController {
                 { usuarioId },
                 { $set: { itens: carrinho.itens, total: carrinho.total, dataAtualizacao: carrinho.dataAtualizacao } }
             );
-            return res.status(200).json({ message: "Quantidade atualizada" });
+            return res.status(200).json({ mensagem: "Quantidade atualizada" });
         } catch (error) {
             return res.status(500).json({ error: "Erro ao atualizar quantidade", details: error });
         }
@@ -155,9 +161,9 @@ class CarrinhoController {
     }
 
     // Remove o carrinho inteiro
-    async remover(req: Request, res: Response) {
+    async remover(req: AutenticacaoRequest, res: Response) {
         try {
-            const { usuarioId } = req.body;
+            const usuarioId = req.usuarioId;
             if (!usuarioId) {
                 return res.status(400).json({ error: "usuarioId é obrigatório" });
             }
@@ -165,7 +171,7 @@ class CarrinhoController {
             if (resultado.deletedCount === 0) {
                 return res.status(404).json({ error: "Carrinho não encontrado" });
             }
-            return res.status(200).json({ message: "Carrinho removido com sucesso" });
+            return res.status(200).json({ mensagem: "Carrinho removido com sucesso" });
         } catch (error) {
             return res.status(500).json({ error: "Erro ao remover carrinho", details: error });
         }

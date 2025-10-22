@@ -36,7 +36,7 @@ class UsuariosController {
 
         if (!senhaValida) return res.status(401).json({ mensagem: "Não autorizado!" })
         
-        const token = jwt.sign({id: usuario._id,}, process.env.JWT_SECRET!, {expiresIn: '1m',})
+        const token = jwt.sign({id: usuario._id,}, process.env.JWT_SECRET!, {expiresIn: '1h',})
         res.status(200).json({ token: token })
     }
 }
